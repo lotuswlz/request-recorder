@@ -23,4 +23,8 @@ public class RequestService {
     public List<RequestDto> getRecordsByMethod(String method) {
         return mongoTemplate.find(Query.query(Criteria.where("method").is(Optional.ofNullable(method).map(String::toUpperCase).orElse(null))), RequestDto.class);
     }
+
+    public List<RequestDto> getAllRecords() {
+        return mongoTemplate.findAll(RequestDto.class);
+    }
 }

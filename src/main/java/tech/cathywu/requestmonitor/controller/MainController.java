@@ -3,23 +3,23 @@ package tech.cathywu.requestmonitor.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import tech.cathywu.requestmonitor.model.RequestDto;
 import tech.cathywu.requestmonitor.service.RequestService;
 
 import java.util.Iterator;
 
 @RequestMapping("/")
-@RestController
+@Controller
 public class MainController {
 
     @Autowired
     private RequestService requestService;
 
     @RequestMapping("/**")
-    public RequestDto recordRequest(@RequestBody Object object, HttpServletRequest request) throws JsonProcessingException {
+    public String recordRequest(@RequestBody(required = false) Object object, HttpServletRequest request) throws JsonProcessingException {
         RequestDto requestDto = new RequestDto();
         requestDto.setUrl(request.getRequestURL().toString());
         requestDto.setMethod(request.getMethod());
@@ -28,7 +28,7 @@ public class MainController {
         requestDto.setBody(object);
         requestDto.setQueryParam(request.getQueryString());
         requestService.saveRequest(requestDto);
-        return requestDto;
+        return "redirect:/admin/records";
     }
 
     private String concatHeaders(HttpServletRequest request) {

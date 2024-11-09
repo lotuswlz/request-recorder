@@ -18,7 +18,10 @@ public class AdminController {
     private RequestService requestService;
 
     @GetMapping("/records")
-    public List<RequestDto> loadByMethod(@RequestParam("method") String method) {
+    public List<RequestDto> loadByMethod(@RequestParam(value = "method", required = false) String method) {
+        if (method == null || method.isBlank()) {
+            return requestService.getAllRecords();
+        }
         return requestService.getRecordsByMethod(method);
     }
 
