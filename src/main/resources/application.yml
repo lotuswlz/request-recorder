@@ -1,0 +1,8 @@
+server:
+  port: 8080
+  context-path: /
+
+mongodb:
+  host: ${MONGO_HOST}
+  port: ${MONGO_PORT}
+  dbName: request_monitor
